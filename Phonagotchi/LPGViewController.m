@@ -57,7 +57,7 @@
                                                              toItem:self.view
                                                           attribute:NSLayoutAttributeCenterY
                                                          multiplier:1.0
-                                                           constant:0.0]];
+                                                           constant:-100.0]];
     
     
     self.bucketImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
@@ -68,19 +68,19 @@
     
     [self.view addSubview:self.bucketImageView];
     
-    NSLayoutConstraint *bucketImageViewBottom = [NSLayoutConstraint constraintWithItem:self.bucketImageView
-                                                                             attribute:NSLayoutAttributeBottom
+    NSLayoutConstraint *bucketImageViewY = [NSLayoutConstraint constraintWithItem:self.bucketImageView
+                                                                             attribute:NSLayoutAttributeCenterY
                                                                              relatedBy:NSLayoutRelationEqual
                                                                                 toItem:self.view
-                                                                             attribute:NSLayoutAttributeBottom
+                                                                             attribute:NSLayoutAttributeCenterY
                                                                             multiplier:1.0
-                                                                              constant:0.0];
+                                                                              constant:200.0];
     
-    NSLayoutConstraint *bucketImageViewLeft = [NSLayoutConstraint constraintWithItem:self.bucketImageView
-                                                                           attribute:NSLayoutAttributeLeft
+    NSLayoutConstraint *bucketImageViewX = [NSLayoutConstraint constraintWithItem:self.bucketImageView
+                                                                           attribute:NSLayoutAttributeCenterX
                                                                            relatedBy:NSLayoutRelationEqual
                                                                               toItem:self.view
-                                                                           attribute:NSLayoutAttributeLeft
+                                                                           attribute:NSLayoutAttributeCenterX
                                                                           multiplier:1.0
                                                                             constant:0.0];
     
@@ -98,8 +98,8 @@
                                                                              attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0
                                                                               constant:150];
     
-    [self.view addConstraint:bucketImageViewLeft];
-    [self.view addConstraint:bucketImageViewBottom];
+    [self.view addConstraint:bucketImageViewX];
+    [self.view addConstraint:bucketImageViewY];
     [self.view addConstraint:bucketImageViewHeight];
     [self.view addConstraint:bucketImageViewWidth];
     
@@ -121,29 +121,53 @@
 
 - (void) generateAppleImageView {
     
+    UIImage *appleImage = [UIImage imageNamed:@"apple.png"];
+    
+    if (self.apple != nil) {
+        self.apple.image = appleImage;
+        return;
+    }
+    
+    
     UIImageView *apple = [[UIImageView alloc] initWithFrame:CGRectZero];
     apple.translatesAutoresizingMaskIntoConstraints = NO;
-    apple.image = [UIImage imageNamed:@"apple.png"];
-    
     self.apple = apple;
+    self.apple.image = appleImage;
+    [self.view addSubview:self.apple];
     
-    [self.view addSubview:apple];
+//   ******** NEW WAY OF WRITING CONSTRAINTS *******
+//    
+//    NSArray *horizontalConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"|-(10)-[apple(width)]-(100)-[basket]-(10)-|" options:(NSLayoutFormatAlignAllCenterY) metrics:@{@"width": @(30)} views:@{
+//                                                                                                                                                                                                               @"apple" : self.apple,
+//                                                                                                                                                                                                               @"basket" : self.bucketImageView
+//                                                                                                                                                                                                               }];
+//    
+//    [self.view addConstraints:horizontalConstraints];
+//
     
-    NSLayoutConstraint *appleBottom = [NSLayoutConstraint constraintWithItem:self.apple
-                                                                   attribute:NSLayoutAttributeBottom
+//    NSLayoutConstraint *centerX = [self.apple.centerXAnchor constraintEqualToAnchor:self.bucketImageView.centerXAnchor];
+//    
+//    [self.view addConstraint:centerX];
+    
+    
+    //    [self.apple.centerXAnchor constraintEqualToAnchor:self.bucketImageView.centerXAnchor].active = YES;
+    
+    
+    NSLayoutConstraint *appleX = [NSLayoutConstraint constraintWithItem:self.apple
+                                                                   attribute:NSLayoutAttributeCenterX
                                                                    relatedBy:NSLayoutRelationEqual
                                                                       toItem:self.bucketImageView
-                                                                   attribute:NSLayoutAttributeTop
+                                                                   attribute:NSLayoutAttributeCenterX
                                                                   multiplier:1.0
-                                                                    constant:100.0];
+                                                                    constant:0.0];
     
-    NSLayoutConstraint *appleLeft = [NSLayoutConstraint constraintWithItem:self.apple
-                                                                 attribute:NSLayoutAttributeLeft
+    NSLayoutConstraint *appleY = [NSLayoutConstraint constraintWithItem:self.apple
+                                                                 attribute:NSLayoutAttributeCenterY
                                                                  relatedBy:NSLayoutRelationEqual
                                                                     toItem:self.bucketImageView
-                                                                 attribute:NSLayoutAttributeLeft
+                                                                 attribute:NSLayoutAttributeCenterY
                                                                 multiplier:1.0
-                                                                  constant:45.0];
+                                                                  constant:0.0];
     
     NSLayoutConstraint *appleWidth = [NSLayoutConstraint constraintWithItem:self.apple
                                                                   attribute:NSLayoutAttributeWidth
@@ -161,10 +185,12 @@
                                                                   multiplier:1.0
                                                                     constant:40.0];
     
-    [self.view addConstraint:appleBottom];
-    [self.view addConstraint:appleLeft];
+    [self.view addConstraint:appleX];
+    [self.view addConstraint:appleY];
     [self.view addConstraint:appleWidth];
     [self.view addConstraint:appleHeight];
+    
+    
 }
 
 - (IBAction)pickUpApple:(UIPinchGestureRecognizer *)sender {
@@ -179,13 +205,28 @@
 
 - (IBAction)dragApple:(UIPanGestureRecognizer *)sender {
     
-    self.apple.center = [sender locationInView:self.apple.superview];
+    CGRect originalFrame = CGRectMake(140, 465, 40, 40);
+    
+    if (sender.state == UIGestureRecognizerStateChanged) {
         
+        self.apple.center = [sender locationInView:self.apple.superview];
         
     }
+    
+    else if (sender.state == UIGestureRecognizerStateEnded) {
+        
+        if (CGRectContainsRect(self.petImageView.frame, self.apple.frame)) {
+            
+            self.apple.image = nil;
+            
+        } else {
+            
+            self.apple.frame = originalFrame;
+            
+        }
+    }
 
-
-
+}
 
 
 @end
