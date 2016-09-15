@@ -164,6 +164,9 @@
     [self.view addConstraint:bucketImageViewWidth];
     
     
+    /************** GESTURE RECOGNIZERS!! **************/
+    
+    
     UIPinchGestureRecognizer *pickUpApple = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pickUpApple:)];
     
     [self.view addGestureRecognizer:pickUpApple];
@@ -220,7 +223,7 @@
 //    [self.view addConstraint:centerX];
     
     
-    //    [self.apple.centerXAnchor constraintEqualToAnchor:self.bucketImageView.centerXAnchor].active = YES;
+//    [self.apple.centerXAnchor constraintEqualToAnchor:self.bucketImageView.centerXAnchor].active = YES;
     
     
     NSLayoutConstraint *appleX = [NSLayoutConstraint constraintWithItem:self.apple
@@ -260,6 +263,12 @@
     [self.view addConstraint:appleWidth];
     [self.view addConstraint:appleHeight];
     
+    [UIView animateWithDuration:1.5 delay:0.0
+                        options:UIViewAnimationOptionRepeat | UIViewAnimationOptionAutoreverse
+                     animations:^{
+                         self.apple.transform = CGAffineTransformMakeTranslation(10, 0);}
+                     completion:^(BOOL end){
+                     }];
 
     
     
@@ -268,6 +277,7 @@
 - (IBAction)pickUpApple:(UIPinchGestureRecognizer *)sender {
     
     if (sender.state == UIGestureRecognizerStateBegan) {
+        
         
         [self generateAppleImageView];
     }
@@ -280,6 +290,8 @@
     CGRect originalFrame = CGRectMake(140, 465, 40, 40);
     
     if (sender.state == UIGestureRecognizerStateChanged) {
+        
+      // put here animation for floating
         
         self.apple.center = [sender locationInView:self.apple.superview];
         
@@ -301,8 +313,8 @@
             
         }
     }
-
 }
+
 
 - (IBAction)tapPet:(UITapGestureRecognizer *)sender {
     
