@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "EB0DD0264A47BD2BF97D8805640AAD44ADA3699C",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "83A40FCE482125C9818E69F0D8672DCC4DB19C52" : 0,
+    "EB0DD0264A47BD2BF97D8805640AAD44ADA3699C" : 9223372036854775807
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "4BC1F725-D9E0-4BBE-AAF9-A94EC1CE3032",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "83A40FCE482125C9818E69F0D8672DCC4DB19C52" : "iOS-Student-Phonagotchi",
+    "EB0DD0264A47BD2BF97D8805640AAD44ADA3699C" : "Phonagotchi\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "Phonagotchi",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "Phonagotchi.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/lighthouse-labs\/iOS-Student-Phonagotchi.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "83A40FCE482125C9818E69F0D8672DCC4DB19C52"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/philipycha\/Phonagotchi.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "EB0DD0264A47BD2BF97D8805640AAD44ADA3699C"
+    }
+  ]
+}
