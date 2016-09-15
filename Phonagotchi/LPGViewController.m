@@ -12,9 +12,9 @@
 @interface LPGViewController ()
 
 @property (nonatomic) UIImageView *petImageView;
-
 @property (nonatomic) UIImageView *bucketImageView;
 @property (nonatomic) UIImageView *apple;
+@property (nonatomic) UILabel     *appTitle;
 
 @property (nonatomic, weak) NSLayoutConstraint *    bucketImageViewBottom;
 @property (nonatomic, weak) NSLayoutConstraint *    bucketImageViewLeft;
@@ -25,6 +25,11 @@
 @property (nonatomic, weak) NSLayoutConstraint *    appleLeft;
 @property (nonatomic, weak) NSLayoutConstraint *    appleWidth;
 @property (nonatomic, weak) NSLayoutConstraint *    appleHeight;
+
+@property (nonatomic, weak) NSLayoutConstraint *    appTitleX;
+@property (nonatomic, weak) NSLayoutConstraint *    appTitleY;
+@property (nonatomic, weak) NSLayoutConstraint *    appTitleWidth;
+@property (nonatomic, weak) NSLayoutConstraint *    appTitleHeight;
 
 @end
 
@@ -58,6 +63,59 @@
                                                           attribute:NSLayoutAttributeCenterY
                                                          multiplier:1.0
                                                            constant:-100.0]];
+    
+    UILabel *appTitle = [[UILabel alloc] initWithFrame:CGRectZero];
+    
+    appTitle.textAlignment = NSTextAlignmentCenter;
+    
+    [self.view addSubview:appTitle];
+    
+    appTitle.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    NSLayoutConstraint *appTitleX = [NSLayoutConstraint constraintWithItem:appTitle
+                                                                 attribute:NSLayoutAttributeCenterX
+                                                                 relatedBy:NSLayoutRelationEqual
+                                                                    toItem:self.view
+                                                                 attribute:NSLayoutAttributeCenterX
+                                                                multiplier:1
+                                                                  constant:0];
+    
+    NSLayoutConstraint *appTitleY = [NSLayoutConstraint constraintWithItem:appTitle
+                                                                 attribute:NSLayoutAttributeCenterY
+                                                                 relatedBy:NSLayoutRelationEqual
+                                                                    toItem:self.view
+                                                                 attribute:NSLayoutAttributeCenterY
+                                                                multiplier:1
+                                                                  constant:-220];
+    
+    NSLayoutConstraint *appTitleWidth = [NSLayoutConstraint constraintWithItem:appTitle
+                                                                     attribute:NSLayoutAttributeWidth
+                                                                     relatedBy:NSLayoutRelationEqual
+                                                                        toItem:nil
+                                                                     attribute:NSLayoutAttributeNotAnAttribute
+                                                                    multiplier:1
+                                                                      constant:250];
+    
+    NSLayoutConstraint *appTitleHeight = [NSLayoutConstraint constraintWithItem:appTitle
+                                                                      attribute:NSLayoutAttributeHeight
+                                                                      relatedBy:NSLayoutRelationEqual
+                                                                         toItem:nil
+                                                                      attribute:NSLayoutAttributeNotAnAttribute
+                                                                     multiplier:1
+                                                                       constant:50];
+    
+    
+    [self.view addConstraint:appTitleX];
+    [self.view addConstraint:appTitleY];
+    [self.view addConstraint:appTitleWidth];
+    [self.view addConstraint:appTitleHeight];
+    
+    
+    [appTitle setText:@"PHONAGOTCHI"];
+    [appTitle setFont:[UIFont fontWithName:@"helvetica neue" size:25]];
+    [appTitle setFont:[UIFont boldSystemFontOfSize:25]];
+    
+    appTitle.textColor = [UIColor whiteColor];
     
     
     self.bucketImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
@@ -115,6 +173,12 @@
     [self.apple addGestureRecognizer:dragApple];
     
     [self.view addGestureRecognizer:dragApple];
+    
+    UITapGestureRecognizer *tapPet = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapPet:)];
+    tapPet.numberOfTouchesRequired = 1;
+    tapPet.numberOfTapsRequired = 1;
+    
+    [self.petImageView addGestureRecognizer:tapPet];
     
     
 }
@@ -190,6 +254,8 @@
     [self.view addConstraint:appleWidth];
     [self.view addConstraint:appleHeight];
     
+
+    
     
 }
 
@@ -226,6 +292,28 @@
         }
     }
 
+}
+
+- (IBAction)tapPet:(UITapGestureRecognizer *)sender {
+    
+    int numberOfTaps;
+    
+    numberOfTaps = 0;
+    
+    if (sender.state == UIGestureRecognizerStateBegan){
+        
+        numberOfTaps ++;
+        
+        if (numberOfTaps == 5){
+            
+            self.petImageView.image = [UIImage imageNamed:@"grumpy.png"];
+            
+        }
+        
+        
+        
+    }
+    
 }
 
 
