@@ -283,6 +283,7 @@
         
         self.apple.center = [sender locationInView:self.apple.superview];
         
+        
     }
     
     else if (sender.state == UIGestureRecognizerStateEnded) {
@@ -293,7 +294,10 @@
             
         } else {
             
-            self.apple.frame = originalFrame;
+            [UIView animateWithDuration:1.25 animations:^{
+                
+                self.apple.frame = originalFrame;
+            }];
             
         }
     }
@@ -307,7 +311,7 @@
         
         self.numberOfTaps ++;
         
-        if (self.numberOfTaps == 4){
+        if (self.numberOfTaps == 5){
             
             self.petImageView.image = [UIImage imageNamed:@"grumpy.png"];
             
