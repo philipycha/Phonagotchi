@@ -16,6 +16,8 @@
 @property (nonatomic) UIImageView *apple;
 @property (nonatomic) UILabel     *appTitle;
 
+@property (assign) int numberOfTaps;
+
 @property (nonatomic, weak) NSLayoutConstraint *    bucketImageViewBottom;
 @property (nonatomic, weak) NSLayoutConstraint *    bucketImageViewLeft;
 @property (nonatomic, weak) NSLayoutConstraint *    bucketImageViewWidth;
@@ -175,10 +177,13 @@
     [self.view addGestureRecognizer:dragApple];
     
     UITapGestureRecognizer *tapPet = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapPet:)];
+    
     tapPet.numberOfTouchesRequired = 1;
     tapPet.numberOfTapsRequired = 1;
     
     [self.petImageView addGestureRecognizer:tapPet];
+    
+    self.petImageView.userInteractionEnabled = YES;
     
     
 }
@@ -198,6 +203,7 @@
     self.apple = apple;
     self.apple.image = appleImage;
     [self.view addSubview:self.apple];
+    
     
 //   ******** NEW WAY OF WRITING CONSTRAINTS *******
 //    
@@ -296,25 +302,30 @@
 
 - (IBAction)tapPet:(UITapGestureRecognizer *)sender {
     
-    int numberOfTaps;
     
-    numberOfTaps = 0;
-    
-    if (sender.state == UIGestureRecognizerStateBegan){
+    if (sender.state == UIGestureRecognizerStateEnded){
         
-        numberOfTaps ++;
+        self.numberOfTaps ++;
         
-        if (numberOfTaps == 5){
+        if (self.numberOfTaps == 4){
             
             self.petImageView.image = [UIImage imageNamed:@"grumpy.png"];
             
+            self.numberOfTaps = 0;
+            
+            [self performSelector:@selector(resetPetImage) withObject:nil afterDelay:1];
+            
         }
-        
         
         
     }
     
 }
 
+-(void)resetPetImage{
+    
+    self.petImageView.image = [UIImage imageNamed:@"default.png"];
+    
+}
 
 @end
