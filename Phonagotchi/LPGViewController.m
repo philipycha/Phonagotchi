@@ -7,6 +7,7 @@
 //
 
 #import "LPGViewController.h"
+#import "LPGPet.h"
 
 @interface LPGViewController ()
 
@@ -102,55 +103,89 @@
     [self.view addConstraint:bucketImageViewHeight];
     [self.view addConstraint:bucketImageViewWidth];
     
+    
+    UIPinchGestureRecognizer *pickUpApple = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pickUpApple:)];
+    
+    [self.view addGestureRecognizer:pickUpApple];
+    
+    UIPanGestureRecognizer *dragApple = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(dragApple:)];
+    
+    dragApple.minimumNumberOfTouches = 1;
+    
+    [self.apple addGestureRecognizer:dragApple];
+    
+    [self.view addGestureRecognizer:dragApple];
+    
+    
 }
 
-- (UIImageView *) generateAppleImageView {
+- (void) generateAppleImageView {
     
     UIImageView *apple = [[UIImageView alloc] initWithFrame:CGRectZero];
     apple.translatesAutoresizingMaskIntoConstraints = NO;
     apple.image = [UIImage imageNamed:@"apple.png"];
+    
+    self.apple = apple;
     
     [self.view addSubview:apple];
     
     NSLayoutConstraint *appleBottom = [NSLayoutConstraint constraintWithItem:self.apple
                                                                    attribute:NSLayoutAttributeBottom
                                                                    relatedBy:NSLayoutRelationEqual
-                                                                      toItem:self.view
-                                                                   attribute:NSLayoutAttributeBottom
+                                                                      toItem:self.bucketImageView
+                                                                   attribute:NSLayoutAttributeTop
                                                                   multiplier:1.0
-                                                                    constant:0.0];
+                                                                    constant:100.0];
     
     NSLayoutConstraint *appleLeft = [NSLayoutConstraint constraintWithItem:self.apple
-                                                                 attribute:NSLayoutAttributeBottom
+                                                                 attribute:NSLayoutAttributeLeft
                                                                  relatedBy:NSLayoutRelationEqual
-                                                                    toItem:self.view
-                                                                 attribute:NSLayoutAttributeBottom
+                                                                    toItem:self.bucketImageView
+                                                                 attribute:NSLayoutAttributeLeft
                                                                 multiplier:1.0
-                                                                  constant:0.0];
+                                                                  constant:45.0];
     
     NSLayoutConstraint *appleWidth = [NSLayoutConstraint constraintWithItem:self.apple
-                                                                  attribute:NSLayoutAttributeBottom
+                                                                  attribute:NSLayoutAttributeWidth
                                                                   relatedBy:NSLayoutRelationEqual
-                                                                     toItem:self.view
-                                                                  attribute:NSLayoutAttributeBottom
+                                                                     toItem:nil
+                                                                  attribute:NSLayoutAttributeNotAnAttribute
                                                                  multiplier:1.0
-                                                                   constant:0.0];
+                                                                   constant:40.0];
     
     NSLayoutConstraint *appleHeight = [NSLayoutConstraint constraintWithItem:self.apple
-                                                                   attribute:NSLayoutAttributeBottom
+                                                                   attribute:NSLayoutAttributeHeight
                                                                    relatedBy:NSLayoutRelationEqual
-                                                                      toItem:self.view
-                                                                   attribute:NSLayoutAttributeBottom
+                                                                      toItem:nil
+                                                                   attribute:NSLayoutAttributeNotAnAttribute
                                                                   multiplier:1.0
-                                                                    constant:0.0];
+                                                                    constant:40.0];
     
     [self.view addConstraint:appleBottom];
     [self.view addConstraint:appleLeft];
     [self.view addConstraint:appleWidth];
     [self.view addConstraint:appleHeight];
+}
+
+- (IBAction)pickUpApple:(UIPinchGestureRecognizer *)sender {
     
-    return apple;
+    if (sender.state == UIGestureRecognizerStateBegan) {
+        
+        [self generateAppleImageView];
+    }
+    
     
 }
+
+- (IBAction)dragApple:(UIPanGestureRecognizer *)sender {
+    
+    self.apple.center = [sender locationInView:self.apple.superview];
+        
+        
+    }
+
+
+
+
 
 @end
